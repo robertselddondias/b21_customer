@@ -12,7 +12,7 @@
 .swiftpm/
 migrate_working_dir/
 
-assets/files/
+assets/files/serviceAccount.json
 
 # IntelliJ related
 *.iml
