@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardiao_cliente/controllers/military_data_controller.dart';
 import 'package:guardiao_cliente/models/entidade_militar_model.dart';
-import 'package:guardiao_cliente/themes/custom_widgets.dart';
 
 class MilitaryDataScreen extends StatelessWidget {
   const MilitaryDataScreen({super.key});
@@ -16,7 +15,7 @@ class MilitaryDataScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
@@ -69,7 +68,7 @@ class MilitaryDataScreen extends StatelessWidget {
                       Text(
                         'Dados Militares',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onBackground,
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -77,7 +76,7 @@ class MilitaryDataScreen extends StatelessWidget {
                       Text(
                         'Informe seus dados militares',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onBackground.withOpacity(0.6),
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -141,14 +140,14 @@ class MilitaryDataScreen extends StatelessWidget {
                       Icon(
                         Icons.lock_outline,
                         size: 16,
-                        color: theme.colorScheme.onBackground.withOpacity(0.5),
+                        color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           'Seus dados estão protegidos pela nossa política de privacidade',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onBackground.withOpacity(0.5),
+                            color: theme.colorScheme.onSurface.withOpacity(0.5),
                             fontSize: 12,
                           ),
                         ),
@@ -246,7 +245,7 @@ class MilitaryDataScreen extends StatelessWidget {
               '$label *',
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: theme.colorScheme.onBackground,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -254,12 +253,12 @@ class MilitaryDataScreen extends StatelessWidget {
             controller: controller,
             keyboardType: keyboardType,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: TextStyle(
-                color: theme.colorScheme.onBackground.withOpacity(0.4),
+                color: theme.colorScheme.onSurface.withOpacity(0.4),
                 fontSize: 14,
               ),
               prefixIcon: Icon(prefixIcon, color: theme.colorScheme.primary.withOpacity(0.7)),
@@ -295,7 +294,7 @@ class MilitaryDataScreen extends StatelessWidget {
             'Estado *',
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
           ),
         ),
@@ -321,7 +320,7 @@ class MilitaryDataScreen extends StatelessWidget {
                 child: Text(
                   value,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onBackground,
+                    color: theme.colorScheme.onSurface,
                   ),
                 ),
               );
@@ -335,7 +334,7 @@ class MilitaryDataScreen extends StatelessWidget {
               border: InputBorder.none,
               hintText: 'Selecione seu estado',
               hintStyle: TextStyle(
-                color: theme.colorScheme.onBackground.withOpacity(0.4),
+                color: theme.colorScheme.onSurface.withOpacity(0.4),
                 fontSize: 14,
               ),
             ),
@@ -359,10 +358,10 @@ class MilitaryDataScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
-            'Entidade *',
+            'Instituição *',
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w500,
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
           ),
         ),
@@ -396,7 +395,7 @@ class MilitaryDataScreen extends StatelessWidget {
                   child: Text(
                     'Nenhuma entidade disponível',
                     style: TextStyle(
-                      color: theme.colorScheme.onBackground.withOpacity(0.4),
+                      color: theme.colorScheme.onSurface.withOpacity(0.4),
                     ),
                   ),
                 )
@@ -406,9 +405,9 @@ class MilitaryDataScreen extends StatelessWidget {
                   return DropdownMenuItem<EntidadeMilitarModel>(
                     value: entity,
                     child: Text(
-                      entity.sigla ?? 'Sem nome',
+                      '${entity.sigla} (${entity.name})' ?? 'Sem nome',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onBackground,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                   );
@@ -423,7 +422,7 @@ class MilitaryDataScreen extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: 'Selecione sua entidade',
                 hintStyle: TextStyle(
-                  color: theme.colorScheme.onBackground.withOpacity(0.4),
+                  color: theme.colorScheme.onSurface.withOpacity(0.4),
                   fontSize: 14,
                 ),
               ),

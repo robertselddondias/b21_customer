@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:guardiao_cliente/models/user_model.dart';
 import 'package:guardiao_cliente/repositories/user_repository.dart';
 import 'package:guardiao_cliente/utils/Preferences.dart';
+import 'package:guardiao_cliente/utils/cpf_utils.dart';
 import 'package:guardiao_cliente/widgets/snackbar_custom.dart';
 import 'package:guardiao_cliente/ui/new_user/address_screen.dart';
 import 'package:guardiao_cliente/utils/date_utils_custom.dart';
@@ -30,6 +31,11 @@ class PersonalDataController extends GetxController {
       filter: {"#": RegExp(r'[0-9]')},
       type: MaskAutoCompletionType.lazy);
 
+  var maskFormatterDtNascimento = MaskTextInputFormatter(
+      mask: '##/##/####',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
   // Instância do Firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -49,12 +55,17 @@ class PersonalDataController extends GetxController {
         return;
       }
 
-      if (maskFormatterCpf.getUnmaskedText().length != 11) {
-        SnackbarCustom.showWarning("CPF inválido. Insira um CPF válido.");
+      if(!CpfUtil.isValid(maskFormatterCpf.getMaskedText())) {
+        SnackbarCustom.showWarning("Insira um CPF válido.");
         return;
       }
 
-      DateTime? birthDate = DateUtilsCustom.convertStringToDate(birthDateController.text.trim());
+      if (maskFormatterCpf.getUnmaskedText().length != 11) {
+        SnackbarCustom.showWarning("Insira um CPF válido.");
+        return;
+      }
+
+      DateTime? birthDate = DateUtilsCustom.convertStringToDate(maskFormatterDtNascimento.getMaskedText().trim());
       if (birthDate == null) {
         SnackbarCustom.showWarning("Data de nascimento inválida.");
         return;

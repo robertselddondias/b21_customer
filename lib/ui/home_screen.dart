@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
     final int crossAxisCount = _getCrossAxisCount(size.width);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background,
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         toolbarHeight: 70,
         backgroundColor: theme.colorScheme.primary,
@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.background,
+                    color: theme.colorScheme.surface,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onBackground,
+                            color: theme.colorScheme.onSurface,
                           ),
                         ),
                         TextButton.icon(
@@ -232,7 +232,7 @@ class HomeScreen extends StatelessWidget {
             child: Text(
               "Acesse rapidamente as funcionalidades do aplicativo.",
               style: TextStyle(
-                color: theme.colorScheme.onBackground.withOpacity(0.8),
+                color: theme.colorScheme.onSurface.withOpacity(0.8),
                 fontWeight: FontWeight.w500,
               ),
             ),

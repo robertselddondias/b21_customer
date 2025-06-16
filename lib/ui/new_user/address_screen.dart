@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardiao_cliente/controllers/address_controller.dart';
-import 'package:guardiao_cliente/themes/custom_widgets.dart';
+import 'package:guardiao_cliente/widgets/guardiao_widget.dart';
 
 class AddressScreen extends StatelessWidget {
   const AddressScreen({super.key});
@@ -15,23 +15,23 @@ class AddressScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: theme.colorScheme.onPrimary),
-            onPressed: () => Get.back(),
-          ),
-          title: Text(
-            'Endereço',
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: theme.colorScheme.onPrimary,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: theme.colorScheme.onPrimary),
+              onPressed: () => Get.back(),
             ),
-          ),
-          backgroundColor: theme.colorScheme.primary,
-          centerTitle: true,
-          elevation: 0
+            title: Text(
+              'Endereço',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+            backgroundColor: theme.colorScheme.primary,
+            centerTitle: true,
+            elevation: 0
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -68,7 +68,7 @@ class AddressScreen extends StatelessWidget {
                       Text(
                         'Seu Endereço',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onBackground,
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -76,7 +76,7 @@ class AddressScreen extends StatelessWidget {
                       Text(
                         'Informe onde você reside',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onBackground.withOpacity(0.6),
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -113,7 +113,7 @@ class AddressScreen extends StatelessWidget {
                               'CEP *',
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w500,
-                                color: theme.colorScheme.onBackground,
+                                color: theme.colorScheme.onSurface,
                               ),
                             ),
                           ),
@@ -126,12 +126,12 @@ class AddressScreen extends StatelessWidget {
                                   keyboardType: TextInputType.number,
                                   inputFormatters: [controller.maskFormatter],
                                   style: theme.textTheme.bodyLarge?.copyWith(
-                                    color: theme.colorScheme.onBackground,
+                                    color: theme.colorScheme.onSurface,
                                   ),
                                   decoration: InputDecoration(
                                     hintText: '00000-000',
                                     hintStyle: TextStyle(
-                                      color: theme.colorScheme.onBackground.withOpacity(0.4),
+                                      color: theme.colorScheme.onSurface.withOpacity(0.4),
                                       fontSize: 14,
                                     ),
                                     prefixIcon: Icon(Icons.map_outlined,
@@ -206,78 +206,91 @@ class AddressScreen extends StatelessWidget {
                           ? Row(
                         children: [
                           Expanded(
-                            child: _buildInputField(
+                            child: GuardiaoWidget.buildInputField(
                               context,
                               label: 'Cidade',
                               hint: 'Digite sua cidade',
                               controller: controller.cityController,
                               prefixIcon: Icons.location_city_outlined,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.streetAddress,
                               theme: theme,
                             ),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
-                            child: _buildInputField(
-                              context,
-                              label: 'Bairro',
-                              hint: 'Digite seu bairro',
-                              controller: controller.districtController,
-                              prefixIcon: Icons.domain_outlined,
-                              theme: theme,
+                            child: GuardiaoWidget.buildInputField(
+                                context,
+                                label: 'Bairro',
+                                hint: 'Digite seu bairro',
+                                controller: controller.districtController,
+                                prefixIcon: Icons.domain_outlined,
+                                theme: theme,
+                                textCapitalization: TextCapitalization.sentences,
+                                keyboardType: TextInputType.streetAddress
                             ),
                           ),
                         ],
                       )
                           : Column(
                         children: [
-                          _buildInputField(
-                            context,
-                            label: 'Cidade',
-                            hint: 'Digite sua cidade',
-                            controller: controller.cityController,
-                            prefixIcon: Icons.location_city_outlined,
-                            theme: theme,
+                          GuardiaoWidget.buildInputField(
+                              context,
+                              label: 'Cidade',
+                              hint: 'Digite sua cidade',
+                              controller: controller.cityController,
+                              prefixIcon: Icons.location_city_outlined,
+                              theme: theme,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.streetAddress
                           ),
                           const SizedBox(height: 16),
-                          _buildInputField(
-                            context,
-                            label: 'Bairro',
-                            hint: 'Digite seu bairro',
-                            controller: controller.districtController,
-                            prefixIcon: Icons.domain_outlined,
-                            theme: theme,
+                          GuardiaoWidget.buildInputField(
+                              context,
+                              label: 'Bairro',
+                              hint: 'Digite seu bairro',
+                              controller: controller.districtController,
+                              prefixIcon: Icons.domain_outlined,
+                              theme: theme,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.streetAddress
                           ),
                         ],
                       ),
                       const SizedBox(height: 16),
 
                       // Rua, Número e Complemento
-                      _buildInputField(
-                        context,
-                        label: 'Rua',
-                        hint: 'Digite o nome da rua',
-                        controller: controller.streetController,
-                        prefixIcon: Icons.signpost_outlined,
-                        theme: theme,
+                      GuardiaoWidget.buildInputField(
+                          context,
+                          label: 'Rua',
+                          hint: 'Digite o nome da rua',
+                          controller: controller.streetController,
+                          prefixIcon: Icons.signpost_outlined,
+                          theme: theme,
+                          textCapitalization: TextCapitalization.sentences,
+                          keyboardType: TextInputType.streetAddress
                       ),
                       const SizedBox(height: 16),
-                      _buildInputField(
-                        context,
-                        label: 'Número',
-                        hint: 'Ex: 123, S/N',
-                        controller: controller.numberController,
-                        prefixIcon: Icons.pin_outlined,
-                        theme: theme,
+                      GuardiaoWidget.buildInputField(
+                          context,
+                          label: 'Número',
+                          hint: 'Ex: 123, S/N',
+                          controller: controller.numberController,
+                          prefixIcon: Icons.pin_outlined,
+                          theme: theme,
+                          textCapitalization: TextCapitalization.sentences,
+                          keyboardType: TextInputType.streetAddress
                       ),
                       const SizedBox(height: 16),
-                      _buildInputField(
-                        context,
-                        label: 'Complemento',
-                        hint: 'Apto, Bloco, Casa, etc.',
-                        controller: controller.complementController,
-                        prefixIcon: Icons.home_outlined,
-                        theme: theme,
-                        isRequired: false,
+                      GuardiaoWidget.buildInputField(
+                          context,
+                          label: 'Complemento',
+                          hint: 'Apto, Bloco, Casa, etc.',
+                          controller: controller.complementController,
+                          prefixIcon: Icons.home_outlined,
+                          theme: theme,
+                          textCapitalization: TextCapitalization.sentences,
+                          keyboardType: TextInputType.streetAddress,
                       ),
                     ],
                   ),
@@ -291,14 +304,14 @@ class AddressScreen extends StatelessWidget {
                       Icon(
                         Icons.lock_outline,
                         size: 16,
-                        color: theme.colorScheme.onBackground.withOpacity(0.5),
+                        color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           'Seus dados estão protegidos pela nossa política de privacidade',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onBackground.withOpacity(0.5),
+                            color: theme.colorScheme.onSurface.withOpacity(0.5),
                             fontSize: 12,
                           ),
                         ),
@@ -376,64 +389,6 @@ class AddressScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInputField(
-      BuildContext context, {
-        required String label,
-        required String hint,
-        required TextEditingController controller,
-        required IconData prefixIcon,
-        required ThemeData theme,
-        bool isRequired = true,
-      }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
-            child: Text(
-              isRequired ? '$label *' : label,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: theme.colorScheme.onBackground,
-              ),
-            ),
-          ),
-          TextField(
-            controller: controller,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onBackground,
-            ),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: TextStyle(
-                color: theme.colorScheme.onBackground.withOpacity(0.4),
-                fontSize: 14,
-              ),
-              prefixIcon: Icon(prefixIcon, color: theme.colorScheme.primary.withOpacity(0.7)),
-              filled: true,
-              fillColor: theme.colorScheme.surface,
-              contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildUfDropdown(AddressController controller, BuildContext context, ThemeData theme) {
     return Obx(() {
       return Column(
@@ -445,7 +400,7 @@ class AddressScreen extends StatelessWidget {
               'Estado *',
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: theme.colorScheme.onBackground,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -470,7 +425,7 @@ class AddressScreen extends StatelessWidget {
                   child: Text(
                     value,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onBackground,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
                 );
@@ -484,7 +439,7 @@ class AddressScreen extends StatelessWidget {
                 border: InputBorder.none,
                 hintText: 'Selecione seu estado',
                 hintStyle: TextStyle(
-                  color: theme.colorScheme.onBackground.withOpacity(0.4),
+                  color: theme.colorScheme.onSurface.withOpacity(0.4),
                   fontSize: 14,
                 ),
               ),

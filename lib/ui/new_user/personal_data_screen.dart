@@ -15,7 +15,7 @@ class PersonalDataScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
@@ -68,7 +68,7 @@ class PersonalDataScreen extends StatelessWidget {
                       Text(
                         'Informações Pessoais',
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onBackground,
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -76,7 +76,7 @@ class PersonalDataScreen extends StatelessWidget {
                       Text(
                         'Preencha seus dados para continuar',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onBackground.withOpacity(0.6),
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -132,8 +132,10 @@ class PersonalDataScreen extends StatelessWidget {
                         label: 'Data de Nascimento',
                         hint: 'DD/MM/AAAA',
                         controller: controller.birthDateController,
-                        isDate: true,
+                        mask: controller.maskFormatterDtNascimento,
+                        isDate: false,
                         prefixIcon: Icons.calendar_today_outlined,
+                        keyboardType: TextInputType.number,
                         theme: theme,
                       ),
 
@@ -147,7 +149,7 @@ class PersonalDataScreen extends StatelessWidget {
                         hint: '(00) 00000-0000',
                         textCapitalization: TextCapitalization.none,
                         controller: controller.phoneController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
                         mask: controller.maskFormatterTelefone,
                         prefixIcon: Icons.phone_outlined,
                         theme: theme,
@@ -175,14 +177,14 @@ class PersonalDataScreen extends StatelessWidget {
                       Icon(
                         Icons.lock_outline,
                         size: 16,
-                        color: theme.colorScheme.onBackground.withOpacity(0.5),
+                        color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           'Seus dados estão protegidos pela nossa política de privacidade',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onBackground.withOpacity(0.5),
+                            color: theme.colorScheme.onSurface.withOpacity(0.5),
                             fontSize: 12,
                           ),
                         ),
@@ -282,7 +284,7 @@ class PersonalDataScreen extends StatelessWidget {
               '$label *',
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: theme.colorScheme.onBackground,
+                color: theme.colorScheme.onSurface,
               ),
             ),
           ),
@@ -295,12 +297,12 @@ class PersonalDataScreen extends StatelessWidget {
             inputFormatters: mask != null ? [mask] : [],
             readOnly: isDate,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: TextStyle(
-                color: theme.colorScheme.onBackground.withOpacity(0.4),
+                color: theme.colorScheme.onSurface.withOpacity(0.4),
                 fontSize: 14,
               ),
               prefixIcon: Icon(prefixIcon, color: theme.colorScheme.primary.withOpacity(0.7)),

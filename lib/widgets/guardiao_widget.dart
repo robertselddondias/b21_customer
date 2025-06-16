@@ -306,5 +306,97 @@ class GuardiaoWidget {
       ),
     );
   }
+
+  static Widget buildInputField(BuildContext context, {
+    required String label,
+    required String hint,
+    required TextEditingController controller,
+    required ThemeData theme,
+    required IconData prefixIcon,
+    TextInputType keyboardType = TextInputType.text,
+    bool isDate = false,
+    required TextCapitalization textCapitalization,
+    dynamic mask,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            child: Text(
+              '$label *',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+          ),
+          TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            autocorrect: true,
+            enableSuggestions: true,
+            textCapitalization: textCapitalization,
+            inputFormatters: mask != null ? [mask] : [],
+            readOnly: isDate,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurface,
+            ),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(
+                color: theme.colorScheme.onSurface.withOpacity(0.4),
+                fontSize: 14,
+              ),
+              prefixIcon: Icon(prefixIcon, color: theme.colorScheme.primary.withOpacity(0.7)),
+              filled: true,
+              fillColor: theme.colorScheme.surface,
+              contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.3)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
+              ),
+            ),
+            onTap: isDate
+                ? () async {
+              FocusScope.of(context).unfocus();
+              DateTime? pickedDate = await showDatePicker(
+                context: Get.context!,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1900),
+                lastDate: DateTime(2100),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.light(
+                        primary: theme.colorScheme.primary,
+                        onPrimary: theme.colorScheme.onPrimary,
+                        surface: theme.colorScheme.surface,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+              if (pickedDate != null) {
+                controller.text = DateUtilsCustom.formatDateToBrazil(pickedDate);
+              }
+            }
+                : null,
+          ),
+        ],
+      ),
+    );
+  }
 }
 

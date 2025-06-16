@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,9 +18,15 @@ class OtpController extends GetxController {
 
   RxBool isLoading = false.obs;
 
+  // Variáveis para o timer
+  final RxInt timerSeconds = 180.obs;
+  final RxBool isTimerRunning = true.obs;
+  Timer? _timer;
+
   @override
   void onInit() {
     getArgument();
+    startTimer(); // Inicia o timer assim que a tela carregar
     super.onInit();
   }
 
@@ -31,6 +38,61 @@ class OtpController extends GetxController {
       verificationId.value = argumentData['verificationId'];
     }
     update();
+  }
+
+  // Inicia o timer de 90 segundos (1:30)
+  void startTimer() {
+    isTimerRunning.value = true;
+    timerSeconds.value = 90;
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (timerSeconds.value > 0) {
+        timerSeconds.value--;
+      } else {
+        isTimerRunning.value = false;
+        _timer?.cancel();
+      }
+    });
+  }
+
+  // Formata o tempo de segundos para MM:SS
+  String formatTime() {
+    int minutes = timerSeconds.value ~/ 60;
+    int seconds = timerSeconds.value % 60;
+    return '${minutes.toString().padLeft(1, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  // Função para reenviar o código OTP
+  Future<void> resendCode() async {
+    isLoading.value = true;
+
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: countryCode.value + phoneNumber.value,
+        verificationCompleted: (PhoneAuthCredential credential) {
+          // Auto verificação completada (em alguns dispositivos Android)
+          FirebaseAuth.instance.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          isLoading.value = false;
+          handleFirebaseAuthError(e);
+        },
+        codeSent: (String vId, int? resendToken) {
+          isLoading.value = false;
+          verificationId.value = vId;
+          startTimer(); // Reinicia o timer
+          SnackbarCustom.showSuccess("Código reenviado com sucesso!");
+        },
+        codeAutoRetrievalTimeout: (String vId) {
+          verificationId.value = vId;
+        },
+        timeout: Duration(seconds: 60),
+      );
+    } catch (e) {
+      isLoading.value = false;
+      SnackbarCustom.showError("Erro ao reenviar o código. Tente novamente.");
+      print('Erro ao reenviar código: $e');
+    }
   }
 
   verifyCode() async {
@@ -120,8 +182,8 @@ class OtpController extends GetxController {
 
   @override
   void dispose() {
-    super.dispose();
-
+    _timer?.cancel(); // Cancela o timer quando o controller for destruído
     otpController.dispose();
+    super.dispose();
   }
 }
